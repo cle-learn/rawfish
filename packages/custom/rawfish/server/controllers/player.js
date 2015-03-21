@@ -7,7 +7,7 @@ function Player(name) {
     this.name = name;
     this.points = 0;
     this.hand = [];
-    this.playedCards = [];
+    this.plate = [];
     EventEmitter.call(this);
 }
 
@@ -32,13 +32,18 @@ Player.prototype.addCard = function(card) {
 Player.prototype.playCard = function(card) {
     var hand = this.hand;
     var cardIndex = hand.indexOf(card);
-    this.hand.splice(cardIndex, 1);
-    this.playedCards.push(card);
-    this.emit('card_played');
+    var removedCard = this.hand.splice(cardIndex, 1);
+    if (removedCard.length == 1) {
+        this.plate.push(card);
+        this.emit('card_played');
+    }
+    else {
+        console.log("Error when playing card.");
+    }
 };
 
 Player.prototype.getPlayedCards = function() {
-    return this.playedCards;
+    return this.plate;
 };
 
 Player.prototype.addPoints = function(points) {
