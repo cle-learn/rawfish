@@ -1,14 +1,19 @@
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
+
 function Game() {
+    this.movesHandled = 0;
     this.deck = new Deck();
     this.players = [];
-
-    function initGame() {
-        this.deck.loadCards();
-        this.shuffle();
-    }
-
-    initGame();
+    EventEmitter.call(this);
 }
+
+util.inherits(Deck, EventEmitter);
+
+Game.prototype.initGame = function() {
+    this.deck.loadCards();
+    this.shuffle();
+};
 
 Game.prototype.addPlayer = function(name) {
     var player = new Player(name);
@@ -20,5 +25,30 @@ Game.prototype.getPlayers = function() {
 };
 
 Game.prototype.startGame = function() {
-    this.deck.deal(this.getPlayers());
+    if (this.players.length >= 2) {
+        this.deck.deal(this.getPlayers());
+    }
+    else {
+        console.log("At least two players must be present to start a game.");
+    }
+};
+
+Game.prototype.handleMove = function() {
+    this.movesHandled++;
+    // Add processing of moves here
+    if (this.movesHandled == this.players.length) {
+        this.movesHandled = 0;
+        this.tradeHands();
+        this.emit('turn_processed');
+    }
+};
+
+Game.prototype.tradeHands = function() {
+    var players = this.players;
+    var tempHand = players[0].hand;
+    for (var i = 0; i < players.length - 1; i++) {
+        tempHand = players[i + 1].hand;
+        players[i + 1].hand = players[i];
+    }
+    players[0].hand = tempHand;
 };
