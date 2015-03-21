@@ -12,7 +12,7 @@ util.inherits(Deck, EventEmitter);
 Deck.prototype.loadCards = function() {
     this.emit('cards_loaded');
 
-}
+};
 
 Deck.prototype.shuffle = function() {
     var cards = this.cards;
@@ -29,7 +29,7 @@ Deck.prototype.shuffle = function() {
         cards[i] = card;
     }
     this.emit('deck_shuffled');
-}
+};
 
 Deck.prototype.deal = function(players) {
     var cards = this.cards;
@@ -41,4 +41,4 @@ Deck.prototype.deal = function(players) {
         players[i % numPlayers].addCard(cards[this.top++])
     }
     this.emit('cards_dealt');
-}
+};
