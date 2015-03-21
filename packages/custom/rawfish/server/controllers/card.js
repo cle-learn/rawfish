@@ -1,7 +1,7 @@
 var uuid = require('uuid');
 
 function Card(name, value) {
-    var id = uuid.v4();
-    var name = name;
-    var value = value != undefined ? value : 0;
+    this.id = uuid.v4();
+    this.name = name;
+    this.value = value != undefined ? value : 0;
 }

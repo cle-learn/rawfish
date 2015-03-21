@@ -2,8 +2,8 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
 function Deck() {
-    var top = 0;
-    var cards = [];
+    this.top = 0;
+    this.cards = [];
     EventEmitter.call(this);
 }
 
@@ -11,7 +11,6 @@ util.inherits(Deck, EventEmitter);
 
 Deck.prototype.loadCards = function() {
     this.emit('cards_loaded');
-
 };
 
 Deck.prototype.shuffle = function() {
