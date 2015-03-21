@@ -1,4 +1,6 @@
 var uuid = require('uuid');
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 
 function Player(name) {
     this.id = uuid.v4();
@@ -6,7 +8,10 @@ function Player(name) {
     this.points = 0;
     this.hand = [];
     this.playedCards = [];
+    EventEmitter.call(this);
 }
+
+util.inherits(Player, EventEmitter);
 
 Player.prototype.getId = function() {
     return this.id;
@@ -29,6 +34,7 @@ Player.prototype.playCard = function(card) {
     var cardIndex = hand.indexOf(card);
     this.hand.splice(cardIndex, 1);
     this.playedCards.push(card);
+    this.emit('card_played');
 }
 
 Player.prototype.getPlayedCards = function() {

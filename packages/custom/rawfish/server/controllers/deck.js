@@ -1,9 +1,16 @@
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
+
 function Deck() {
     var top = 0;
     var cards = [];
+    EventEmitter.call(this);
 }
 
+util.inherits(Deck, EventEmitter);
+
 Deck.prototype.loadCards = function() {
+    this.emit('cards_loaded');
 
 }
 
@@ -21,6 +28,7 @@ Deck.prototype.shuffle = function() {
         cards[numCards] = cards[i];
         cards[i] = card;
     }
+    this.emit('deck_shuffled');
 }
 
 Deck.prototype.deal = function(players) {
@@ -32,4 +40,5 @@ Deck.prototype.deal = function(players) {
     for (var i = 0; i < cardsToDeal; i++) {
         players[i % numPlayers].addCard(cards[this.top++])
     }
+    this.emit('cards_dealt');
 }
