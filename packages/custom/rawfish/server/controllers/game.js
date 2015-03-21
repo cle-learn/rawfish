@@ -8,11 +8,11 @@ function Game() {
     EventEmitter.call(this);
 }
 
-util.inherits(Deck, EventEmitter);
+util.inherits(Game, EventEmitter);
 
-Game.prototype.initGame = function() {
+Game.prototype.init = function() {
     this.deck.loadCards();
-    this.shuffle();
+    this.deck.shuffle();
 };
 
 Game.prototype.addPlayer = function(name) {
